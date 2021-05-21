@@ -1,5 +1,5 @@
 class Carte:
-
+# WESH YOO
 
 	def __init__(self, nom, couleur):
 		self.nom = nom
