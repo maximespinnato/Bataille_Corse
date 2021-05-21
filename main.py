@@ -13,23 +13,9 @@ import time
 # Commencer le graphique
 
 
-### VERIFIER LA CLASSE Conditions fin de partie : 
-# Si le joueur n'a plus de cartes et qu'il n'y a pas de têtes en jeu:
-	# Nombre de joueurs perdants = 0
-	# Parcourir les paquets:
-		# Si le paquet est vide :
-			# Augmenter le nombre de joueurs perdants
-		# else : gagnant = joueur.
-	# Si le nombre de joueurs perdants = nombre de joueurs - 1
-		# Joueur.FIN = True !!
-		# Le gagnant est : gagnant
-
+### VERIFIER LA CLASSE Conditions fin de partie
 
 ### VERIFIER LA CLASSE Sauter les joueurs qui n'ont plus de cartes
-# Tant que Autorisation = n
-	# Si le joueur n+1 a encore des cartes:
-		# Autoriser le joueur n+1 à jouer
-	# Sinon : incrementer n
 
 
 

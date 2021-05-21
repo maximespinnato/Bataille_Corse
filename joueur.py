@@ -117,7 +117,8 @@ class Joueur:
 			paquet.Paquet.PAQUETS[0].verification_autorisations()
 		else : 
 			Joueur.verifier_fin_jeu()
-			Joueur.regler_tete()
+			if Joueur.TETE_EN_COURS == True:
+				Joueur.regler_tete()
 
 
 
@@ -154,6 +155,26 @@ class Joueur:
 			print(self.JOUEURS[self.GAGNANT].nom, "a gagné !!!!")
 			sys.exit()
 		else : self.GAGNANT = 666
+
+
+### Logique lorsque plus de cartes:
+# Si il y a une tête : 
+	# TETE EN COURS = TRUE
+
+# Si joueur n n'a plus de cartes et TETE EN COURS et JOUEUR AIDEE = 0:
+	# AUTORISATION JOUER = n+1 
+	# JOUEUR AIDEE = n
+
+# Si joueur n+1 n'a plus de cartes et TETE EN COURS et JOUEUR AIDEE = n:
+	# AUTORISATION JOUER = n+2 
+
+# Si un joueur récupère (en prenant ou tapant) :
+	# JOUEUR AIDEE = 0
+
+# Si il y a une tete et JOUEUR AIDEE = n :
+	# JOUEUR AIDEE = 0
+	# AUTORISATION PRENDRE = n
+	# AUTORISATION JOUER = n + 1
 
 
 	@classmethod
