@@ -13,7 +13,7 @@ import time
 # Commencer le graphique
 
 
-### Conditions fin de partie : 
+### VERIFIER LA CLASSE Conditions fin de partie : 
 # Si le joueur n'a plus de cartes et qu'il n'y a pas de têtes en jeu:
 	# Nombre de joueurs perdants = 0
 	# Parcourir les paquets:
@@ -24,11 +24,13 @@ import time
 		# Joueur.FIN = True !!
 		# Le gagnant est : gagnant
 
-### Sauter les joueurs qui n'ont plus de cartes
+
+### VERIFIER LA CLASSE Sauter les joueurs qui n'ont plus de cartes
 # Tant que Autorisation = n
 	# Si le joueur n+1 a encore des cartes:
 		# Autoriser le joueur n+1 à jouer
 	# Sinon : incrementer n
+
 
 
 ### Logique lorsque plus de cartes:

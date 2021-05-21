@@ -2,6 +2,8 @@ import paquet
 import carte
 import random
 import time
+import sys
+import keyboard
 # import keyboard  A INSTALLER !!!!
 
 
@@ -12,12 +14,14 @@ class Joueur:
 	NOMS_JOUEURS_REELS = ["Maxime", "Cauchy", "David", "Lucas"]
 	NOMS_JOUEURS_ORDI = ["Jean-Paul", "Alphonse", "Pascal"]
 	AUTORISATION_TAPER = False
-	AUTORISATION_JOUER = 0
-	AUTORISATION_PRENDRE = 0
+	AUTORISATION_JOUER = 666
+	AUTORISATION_PRENDRE = 666
 	FIN = False
-	JOUEUR_QUI_JOUE = 0
-	JOUEUR_QUI_TAPE = 0
-	JOUEUR_QUI_PREND = 0
+	GAGNANT = 666
+	JOUEUR_QUI_JOUE = 666
+	JOUEUR_QUI_TAPE = 666
+	JOUEUR_QUI_PREND = 666
+	TETE_EN_COURS = False
 
 
 	@classmethod
@@ -35,47 +39,49 @@ class Joueur:
 			print("Joueur n°", joueur.numero, " : ", joueur.nom, " ", type(joueur))
 			if str(type(joueur)) == "<class \'joueur.Joueur_ordi\'>" :
 				print("Ce joueur est un ordinateur")
-		self.AUTORISATION_JOUER = 1
+		self.AUTORISATION_JOUER = 0
 
 	@classmethod
 	def jeu(self):
 		while self.FIN == False :
 
-			if self.AUTORISATION_JOUER != 0:
+			if self.AUTORISATION_JOUER != 666:
 				if str(type(self.JOUEURS[AUTORISATION_JOUER])) == "<class \'joueur.Joueur_ordi\'>":
 					self.JOUEURS[AUTORISATION_JOUER].jouer()
-			if self.AUTORISATION_TAPER != 0:
+			if self.AUTORISATION_TAPER != 666:
 				for joueur in self.JOUEURS:
 					if str(type(joueur)) == "<class \'joueur.Joueur_ordi\'>" :
 						joueur.taper()
-			if self.AUTORISATION_PRENDRE != 0:
+			if self.AUTORISATION_PRENDRE != 666:
 				if str(type(self.JOUEURS[AUTORISATION_PRENDRE])) == "<class \'joueur.Joueur_ordi\'>":
 					self.JOUEURS[AUTORISATION_PRENDRE].prendre()
 
-			if self.JOUEUR_QUI_JOUE != 0 :
+			if self.JOUEUR_QUI_JOUE != 666 :
 				if self.JOUEUR_QUI_JOUE == self.AUTORISATION_JOUER:
 					self.JOUEURS[JOUEUR_QUI_JOUE].poser_carte()
-					self.AUTORISATION_JOUER = self.AUTORISATION_JOUER + 1
-					paquet.Paquet_central.verifier_autorisations(self.AUTORISATION_JOUER)
-					self.AUTORISATION_JOUER = self.AUTORISATION_JOUER + 1
+					passer_perdants = 0
+					while len(paquet.Paquet.PAQUETS[1 + self.AUTORISATION_JOUER + 1 + passer_perdants].liste) == 0:
+						passer_perdants = passer_perdants + 1
+					self.AUTORISATION_JOUER = self.AUTORISATION_JOUER + 1 + passer_perdants
+					paquet.Paquet_central.verifier_autorisations()
 				else : self.JOUEURS[JOUEUR_QUI_JOUE].poser_penalite()
-				self.JOUEUR_QUI_JOUE = 0
-			if self.JOUEUR_QUI_TAPE != 0 :
+				self.JOUEUR_QUI_JOUE = 666
+			if self.JOUEUR_QUI_TAPE != 666 :
 				if AUTORISATION_TAPER == True :
 					self.JOUEURS[JOUEUR_QUI_TAPE].recuperer()
 					self.AUTORISATION_TAPER = False
-					self.AUTORISATION_PRENDRE = 0
+					self.AUTORISATION_PRENDRE = 666
 					self.AUTORISATION_JOUER = self.JOUEUR_QUI_TAPE
 				else : self.JOUEURS[JOUEUR_QUI_TAPE].poser_penalite()
-				self.JOUEUR_QUI_TAPE = 0
-			if self.JOUEUR_QUI_PREND != 0 :
+				self.JOUEUR_QUI_TAPE = 666
+			if self.JOUEUR_QUI_PREND != 666 :
 				if self.JOUEUR_QUI_PREND == self.AUTORISATION_PRENDRE:
 					self.JOUEURS[JOUEUR_QUI_PREND].recuperer()
 					self.AUTORISATION_TAPER = False
-					self.AUTORISATION_PRENDRE = 0
+					self.AUTORISATION_PRENDRE = 666
 					self.AUTORISATION_JOUER = self.JOUEUR_QUI_PREND
 				else : self.JOUEURS[JOUEUR_QUI_PREND].poser_penalite()
-				self.JOUEUR_QUI_PREND = 0
+				self.JOUEUR_QUI_PREND = 666
 
 
 
@@ -104,12 +110,21 @@ class Joueur:
 			print(self.nom, "pose une carte")
 			carte = paquet.Paquet.PAQUETS[self.numero].liste[0]
 			paquet.Paquet.PAQUETS[self.numero].liste.pop(0)
-			paquet.Paquet.PAQUETS[0].liste.insert(0,carte)
+			paquet.Paquet.PAQUETS[0].liste.insert(0, carte)
 			paquet.Paquet.PAQUETS[0].montrer_n_cartes(5)
+			if carte.nom == "Valet" or carte.nom == "Dame" or carte.nom == "Roi" or carte.nom == "As":
+				Joueur.TETE_EN_COURS = True
 			paquet.Paquet.PAQUETS[0].verification_autorisations()
+		else : 
+			Joueur.verifier_fin_jeu()
+			Joueur.regler_tete()
+
+
+
 
 	def recuperer(self):
 		print(self.nom, "récupère le paquet")
+		Joueur.TETE_EN_COURS = False
 		while len(paquet.Paquet.PAQUETS[0].liste) != 0 :
 			carte = paquet.Paquet.PAQUETS[0].liste[-1]
 			carte.devenir_normale()
@@ -126,6 +141,24 @@ class Joueur:
 			paquet.Paquet.PAQUETS[self.numero].liste.pop(0)
 			paquet.Paquet.PAQUETS[0].liste.append(carte)
 			paquet.Paquet.PAQUETS[0].montrer_n_cartes(5)
+
+	@classmethod
+	def verifier_fin_jeu(self):
+		nombre_perdants = 0
+		for numero_joueur in range(len(self.JOUEURS)):
+			if len(paquet.Paquet.PAQUETS[numero_joueur + 1].liste) == 0:
+				nombre_perdants = nombre_perdants + 1
+			else : self.GAGNANT = numero_joueur
+		if nombre_perdants == paquet.Paquet.PAQUETS - 1:
+			self.FIN = True
+			print(self.JOUEURS[self.GAGNANT].nom, "a gagné !!!!")
+			sys.exit()
+		else : self.GAGNANT = 666
+
+
+	@classmethod
+	def regler_tete(self):
+		pass
 
 
 class Joueur_reel(Joueur):

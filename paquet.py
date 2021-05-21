@@ -75,19 +75,19 @@ class Paquet:
 		if len(self.liste) >= 2 and self.liste[1].nom == "Valet" and self.liste[1].penalite == False and self.liste[0].is_tete == False:
 			print("Celui qui a mis le Valet peut prendre !")
 			joueur.Joueur.AUTORISATION_PRENDRE = joueur.Joueur.AUTORISATION_JOUER -1
-			joueur.Joueur.AUTORISATION_JOUER = 0
+			joueur.Joueur.AUTORISATION_JOUER = 666
 		if len(self.liste) >= 3 and self.liste[2].nom == "Dame" and self.liste[2].penalite == False and self.liste[1].is_tete == False and self.liste[0].is_tete == False:
 			print("Celui qui a mis la Dame peut prendre !")
 			joueur.Joueur.AUTORISATION_PRENDRE = joueur.Joueur.AUTORISATION_JOUER -1
-			joueur.Joueur.AUTORISATION_JOUER = 0
+			joueur.Joueur.AUTORISATION_JOUER = 666
 		if len(self.liste) >= 4 and self.liste[3].nom == "Roi" and self.liste[3].penalite == False and self.liste[2].is_tete == False and self.liste[1].is_tete == False and self.liste[0].is_tete == False:
 			print("Celui qui a mis le Roi peut prendre !")
 			joueur.Joueur.AUTORISATION_PRENDRE = joueur.Joueur.AUTORISATION_JOUER -1
-			joueur.Joueur.AUTORISATION_JOUER = 0
+			joueur.Joueur.AUTORISATION_JOUER = 666
 		if len(self.liste) >= 5 and self.liste[4].nom == "As" and self.liste[4].penalite == False and self.liste[3].is_tete == False and self.liste[2].is_tete == False and self.liste[1].is_tete == False and self.liste[0].is_tete == False:
 			print("Celui qui a mis l'As peut prendre !")
 			joueur.Joueur.AUTORISATION_PRENDRE = joueur.Joueur.AUTORISATION_JOUER -1
-			joueur.Joueur.AUTORISATION_JOUER = 0
+			joueur.Joueur.AUTORISATION_JOUER = 666
 
 
 
